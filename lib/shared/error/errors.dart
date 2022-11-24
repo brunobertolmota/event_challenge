@@ -6,3 +6,5 @@ class InternalServerException implements Exception{}
 
 class UnknownEception implements Exception{}
 
+class NoInternetConnection implements Exception{}
+

@@ -1,10 +1,7 @@
 import 'package:event_challenge/shared/core/client/cache_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SharedPreferenceTestImpl implements LocalStorage {
-  // final SharedPreferences prefs;
-
-  // SharedPreferenceTestImpl({required this.prefs});
+class SharedPreferenceImpl implements LocalStorage {
   
   @override
   Future<void> writeData({required String key, required List<String> list}) async {

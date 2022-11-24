@@ -7,7 +7,7 @@ import 'package:event_challenge/features/service/events_service.dart';
 import 'package:event_challenge/features/service/shared_preference.dart';
 import 'package:event_challenge/shared/core/client/cache_client.dart';
 import 'package:event_challenge/shared/core/client/client.dart';
-import 'package:event_challenge/shared/core/client/dio_implement.dart';
+import 'package:event_challenge/shared/core/client/dio/dio_implement.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 
@@ -29,7 +29,7 @@ class ServiceLocator {
     );
 
     getIt.registerFactory<LocalStorage>(
-      () => SharedPreferenceTestImpl(),
+      () => SharedPreferenceImpl(),
     );
     // getIt.registerFactory<CacheStore>(
     //   () => SharedPreferenceTestImpl(prefs: getIt<SharedPreferences>()),

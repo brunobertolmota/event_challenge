@@ -27,17 +27,4 @@ class GetDataRepoService {
     }
   }
 
-  Future<List<EventModel>> postData({body}) async {
-    final response = await client.post(path: AppConfigurations.url, body: body);
-    switch (response.statusCode) {
-      case 403:
-        throw ForbiddenException();
-      case 404:
-        throw NotFoundException();
-      case 500:
-        throw InternalServerException();
-      default:
-        throw UnknownEception();
-    }
-  }
 }

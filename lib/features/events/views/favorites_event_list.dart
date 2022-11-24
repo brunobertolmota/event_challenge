@@ -1,9 +1,10 @@
-import 'dart:developer';
 import 'package:event_challenge/features/events/controller/events_controller.dart';
 import 'package:event_challenge/features/events/model/events_model.dart';
-import 'package:event_challenge/features/events/views/events_list.dart';
+import 'package:event_challenge/features/events/widgets/event_card.dart';
 import 'package:event_challenge/shared/core/dependencies.dart';
+import 'package:event_challenge/shared/utils/app_assets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class FavoriteEventsListPage extends StatelessWidget {
   FavoriteEventsListPage({Key? key}) : super(key: key);
@@ -12,57 +13,67 @@ class FavoriteEventsListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void handleTap(EventModel model) {
+      Navigator.of(context).pushNamed(
+        '/eventDetail',
+        arguments: model,
+      );
+    }
+
     return Scaffold(
-      body: Center(
+        body: SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: FutureBuilder<List<EventModel>>(
-            future: controller.getDataController(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Text(
-                        'API request',
+          future: controller.loadDataFromCache(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (controller.storageFavoriteList.isNotEmpty) {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: controller.storageFavoriteList.length,
+                  itemBuilder: (_, index) => GestureDetector(
+                    onTap: () => handleTap(controller.eventList[index]),
+                    child: Card(
+                      elevation: 10,
+                      child: EventCard(
+                        model: controller.storageFavoriteList[index],
                       ),
-                      ElevatedButton(
-                          onPressed: () {
-                            log('lista');
-                            inspect(controller.eventList);
-                          },
-                          child: const Text('lista')),
-                      ElevatedButton(
-                          onPressed: () {
-                            log('salvando dados no cache...');
-                            controller.saveDataInCache();
-                          },
-                          child: const Text('salvar no cache')),
-                      ElevatedButton(
-                          onPressed: () {
-                            inspect(controller.offlineList);
-                          },
-                          child: const Text('inspecionar dados do cache')),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => EventListPage()));
-                          },
-                          child: const Text('TELA LISTA')),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/homePage');
-                            inspect(controller.favoriteList);
-                          },
-                          child: const Text('veririficar favoritos')),
-                    ],
+                    ),
                   ),
                 );
               } else {
-                return const CircularProgressIndicator();
+                return _iconEmptylist();
               }
-            }),
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+      ),
+    ));
+  }
+
+  // _iconHasError
+  Widget _iconEmptylist() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            constraints: const BoxConstraints(
+              minHeight: 200,
+              minWidth: 200,
+            ),
+            child: SvgPicture.asset(
+              AppImages.iconNoEvent,
+              alignment: Alignment.center,
+            ),
+          ),
+          const Text('Não há nenhum evento salvo')
+        ],
       ),
     );
   }

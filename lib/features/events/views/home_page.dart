@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:event_challenge/features/auth/controller/login_controller.dart';
 import 'package:event_challenge/features/events/controller/events_controller.dart';
 import 'package:event_challenge/features/events/views/events_list.dart';
@@ -28,18 +30,21 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(30),
+              bottomRight: Radius.circular(30),
+            ),
+          ),
           title: const Text('Eventos'),
           actions: [
             PopupMenuButton(
               itemBuilder: (context) => [
                 PopupMenuItem(
                   child: TextButton(
-                    onPressed: () async {
-                      await auth.signOut();
-                      if (!mounted) {
-                        return;
-                      }
-                      Navigator.pushReplacementNamed(context, '/login');
+                    onPressed: () {
+                      auth.signOut().then((value) =>
+                          Navigator.pushReplacementNamed(context, '/login'));
                     },
                     child: const Text('Sair'),
                   ),
