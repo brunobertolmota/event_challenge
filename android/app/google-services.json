@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "24493903111",
+    "project_id": "event-challenge-a4ddb",
+    "storage_bucket": "event-challenge-a4ddb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24493903111:android:f90f7bdfd620fb119009a2",
+        "android_client_info": {
+          "package_name": "com.example.event_challenge"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "24493903111-ev84kcahd28fh6mal21qre1qcu9ts6uv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqJqZq6pghnopBllPOovwm690dQr1Cs6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "24493903111-ev84kcahd28fh6mal21qre1qcu9ts6uv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
