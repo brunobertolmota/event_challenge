@@ -9,17 +9,15 @@ class ConnectivityController extends ChangeNotifier {
   final Connectivity connectivity = Connectivity();
 
   Future<void> initConnectivity() async {
-    late ConnectivityResult result;
-
-    result = await connectivity.checkConnectivity();
-
-    return updateConnectionStatus(result);
+    final result = await connectivity.checkConnectivity();
+    updateConnectionStatus(result);
+    connectivity.onConnectivityChanged.listen((event) {
+      updateConnectionStatus(event);
+    });
   }
 
   Future<void> updateConnectionStatus(ConnectivityResult result) async {
     connectionStatus = result;
-    connectivitySubscription =
-        connectivity.onConnectivityChanged.listen(updateConnectionStatus);
     notifyListeners();
   }
 }

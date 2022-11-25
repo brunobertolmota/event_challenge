@@ -38,21 +38,11 @@ class EventsController extends ChangeNotifier {
     notifyListeners();
   }
 
-  
-
   Future<List<EventModel>> getDataController() async {
     try {
       eventList = await remoteService.getData();
       return eventList;
-    } on ForbiddenException {
-      hasError = true;
-    } on NotFoundException {
-      hasError = true;
-    } on InternalServerException {
-      hasError = true;
-    } on UnknownEception {
-      hasError = true;
-    } on NoInternetConnection {
+    } on Exception {
       hasError = true;
     }
     return [];

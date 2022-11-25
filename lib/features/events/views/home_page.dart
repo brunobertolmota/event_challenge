@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:event_challenge/features/auth/controller/login_controller.dart';
 import 'package:event_challenge/features/connectivity/controller/connectivity_controller.dart';
@@ -9,7 +8,9 @@ import 'package:event_challenge/shared/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
-   HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key}) : super(key: key) {
+    connectivityController.initConnectivity();
+  }
 
   final LoginController loginController = getIt<LoginController>();
 
@@ -82,38 +83,23 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _appBardConnectionStatus() {
-    return FutureBuilder<void>(
-        future: connectivityController.initConnectivity(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return StreamBuilder<StreamSubscription>(
-                initialData: connectivityController.connectivitySubscription,
-                builder: (context, _) {
-                  return AnimatedBuilder(
-                    animation: connectivityController,
-                    builder: (context, _) =>
-                        connectivityController.connectionStatus ==
-                                ConnectivityResult.wifi
-                            ? const Icon(
-                                Icons.wifi,
-                                color: Colors.green,
-                              )
-                            : connectivityController.connectionStatus ==
-                                    ConnectivityResult.mobile
-                                ? const Icon(
-                                    Icons.signal_cellular_alt,
-                                    color: Colors.yellow,
-                                  )
-                                : const Icon(
-                                    Icons.close,
-                                    color: Colors.red,
-                                  ),
-                  );
-                });
-          }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        });
+    return AnimatedBuilder(
+      animation: connectivityController,
+      builder: (context, _) => connectivityController.connectionStatus ==
+              ConnectivityResult.wifi
+          ? const Icon(
+              Icons.wifi,
+              color: Colors.green,
+            )
+          : connectivityController.connectionStatus == ConnectivityResult.mobile
+              ? const Icon(
+                  Icons.signal_cellular_alt,
+                  color: Colors.yellow,
+                )
+              : const Icon(
+                  Icons.close,
+                  color: Colors.red,
+                ),
+    );
   }
 }

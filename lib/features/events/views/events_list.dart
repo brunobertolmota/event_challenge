@@ -109,7 +109,6 @@ class _EventListPageState extends State<EventListPage> {
                   purpleText(text: 'Adicionar aos Meus Eventos', fontSize: 18))
           : TextButton(
               onPressed: () {
-                inspect(controller.eventList[index]);
                 controller.removePersonInFavorite(
                   controller.eventList[index],
                 );
