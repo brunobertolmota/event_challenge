@@ -51,8 +51,6 @@ class HomePage extends StatelessWidget {
         body: Column(
           children: <Widget>[
             const TabBar(
-              // indicatorSize: TabBarIndicatorSize.tab,
-              // indicatorPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               padding: EdgeInsets.only(top: 12.0, bottom: 2),
               indicatorColor: AppColors.purple,
               unselectedLabelColor: Colors.grey,
