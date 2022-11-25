@@ -38,6 +38,7 @@ class FavoriteEventsListPage extends StatelessWidget {
                       elevation: 10,
                       child: EventCard(
                         model: controller.storageFavoriteList[index],
+                        descriptionLines: 3,
                       ),
                     ),
                   ),

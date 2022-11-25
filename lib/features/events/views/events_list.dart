@@ -5,13 +5,24 @@ import 'package:event_challenge/features/events/model/events_model.dart';
 import 'package:event_challenge/features/events/widgets/event_card.dart';
 import 'package:event_challenge/shared/core/dependencies.dart';
 import 'package:event_challenge/shared/utils/app_assets.dart';
+import 'package:event_challenge/shared/utils/widgets/text_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class EventListPage extends StatelessWidget {
-  EventListPage({Key? key}) : super(key: key);
+class EventListPage extends StatefulWidget {
+  const EventListPage({Key? key}) : super(key: key);
 
+  @override
+  State<EventListPage> createState() => _EventListPageState();
+}
+
+class _EventListPageState extends State<EventListPage> {
   final EventsController controller = getIt<EventsController>();
+  @override
+  void initState() {
+    controller.loadDataFromCache();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +49,41 @@ class EventListPage extends StatelessWidget {
                     onTap: () => handleTap(controller.eventList[index]),
                     child: Card(
                       elevation: 10,
-                      child: EventCard(
-                        model: controller.eventList[index],
+                      child: Column(
+                        children: [
+                          EventCard(
+                            model: controller.eventList[index],
+                            descriptionLines: 3,
+                          ),
+                          AnimatedBuilder(
+                            animation: controller,
+                            builder: (context, child) =>
+                                !controller.storageFavoriteList.any((model) =>
+                                        model.id ==
+                                        controller.eventList[index].id)
+                                    ? TextButton(
+                                        onPressed: () {
+                                          controller.savePersonInFavorite(
+                                            controller.eventList[index],
+                                          );
+                                        },
+                                        child: purpleText(
+                                            text: 'Adicionar aos Meus Eventos',
+                                            fontSize: 18))
+                                    : TextButton(
+                                        onPressed: () {
+                                          inspect(controller.eventList[index]);
+                                          controller.removePersonInFavorite(
+                                            controller.eventList[index],
+                                          );
+                                        },
+                                        child: purpleText(
+                                          text: 'Remover dos Meus Eventos',
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

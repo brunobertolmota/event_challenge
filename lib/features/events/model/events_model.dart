@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:event_challenge/features/events/model/address_model.dart';
 
 class EventModel {
@@ -45,5 +46,26 @@ class EventModel {
 
     return event;
   }
-}
 
+  @override
+  bool operator ==(covariant EventModel other) {
+    if (identical(this, other)) return true;
+
+    return other.eventName == eventName &&
+        other.eventDescription == eventDescription &&
+        other.startTime == startTime &&
+        other.endTime == endTime &&
+        other.thumbnail == thumbnail &&
+        other.eventUrl == eventUrl;
+  }
+
+  @override
+  int get hashCode {
+    return eventName.hashCode ^
+        eventDescription.hashCode ^
+        startTime.hashCode ^
+        endTime.hashCode ^
+        thumbnail.hashCode ^
+        eventUrl.hashCode;
+  }
+}

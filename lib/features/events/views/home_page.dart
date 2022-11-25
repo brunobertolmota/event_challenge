@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'dart:developer';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:event_challenge/features/auth/controller/login_controller.dart';
+import 'package:event_challenge/features/connectivity/controller/connectivity_controller.dart';
 import 'package:event_challenge/features/events/controller/events_controller.dart';
 import 'package:event_challenge/features/events/views/events_list.dart';
 import 'package:event_challenge/features/events/views/favorites_event_list.dart';
@@ -18,10 +21,9 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final EventsController eventController = getIt<EventsController>();
-
   final LoginController loginController = getIt<LoginController>();
-
   final auth = getIt<FirebaseAuth>();
+  final ConnectivityController con = ConnectivityController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +31,7 @@ class _HomePageState extends State<HomePage> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          leading: _appBardConnectionStatus(),
           centerTitle: true,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -43,8 +46,10 @@ class _HomePageState extends State<HomePage> {
                 PopupMenuItem(
                   child: TextButton(
                     onPressed: () {
-                      auth.signOut().then((value) =>
-                          Navigator.pushReplacementNamed(context, '/login'));
+                      inspect(eventController.storageFavoriteList);
+
+                      // auth.signOut().then((value) =>
+                      //     Navigator.pushReplacementNamed(context, '/login'));
                     },
                     child: const Text('Sair'),
                   ),
@@ -85,5 +90,38 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  Widget _appBardConnectionStatus() {
+    return FutureBuilder<void>(
+        future: con.initConnectivity(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            return StreamBuilder<StreamSubscription>(
+                initialData: con.connectivitySubscription,
+                builder: (context, _) {
+                  return AnimatedBuilder(
+                      animation: con,
+                      builder: (context, _) => con.connectionStatus ==
+                              ConnectivityResult.wifi
+                          ? const Icon(
+                              Icons.wifi,
+                              color: Colors.green,
+                            )
+                          : con.connectionStatus == ConnectivityResult.mobile
+                              ? const Icon(
+                                  Icons.signal_cellular_alt,
+                                  color: Colors.yellow,
+                                )
+                              : const Icon(
+                                  Icons.close,
+                                  color: Colors.red,
+                                ));
+                });
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
   }
 }

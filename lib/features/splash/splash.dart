@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:event_challenge/shared/core/dependencies.dart';
 import 'package:event_challenge/shared/utils/app_assets.dart';
+import 'package:event_challenge/shared/utils/app_colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -38,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      color: Colors.purple,
+      color: AppColors.purple,
       child: Center(
         child: SvgPicture.asset(AppImages.splash),
       ),

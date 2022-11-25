@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:event_challenge/features/auth/client/user_client.dart';
 import 'package:event_challenge/features/auth/controller/login_controller.dart';
@@ -54,11 +55,13 @@ class ServiceLocator {
       ),
     );
 
+    getIt.registerFactory<Connectivity>(() => Connectivity());
     //pode ser feito um singleton
     getIt.registerSingleton<EventsController>(
       EventsController(
         remoteService: getIt<GetDataRepoService>(),
         localStorageService: getIt<LocalStorage>(),
+        connectivity: getIt<Connectivity>(),
       ),
     );
   }

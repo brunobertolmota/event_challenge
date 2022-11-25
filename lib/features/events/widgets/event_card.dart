@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 
-
 class EventCard extends StatelessWidget {
   final EventModel model;
-  const EventCard({Key? key, required this.model}) : super(key: key);
+  final int descriptionLines;
+  const EventCard(
+      {Key? key, required this.model, required this.descriptionLines})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +50,7 @@ class EventCard extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: Container(
               constraints: const BoxConstraints(maxWidth: 350, minWidth: 280),
-              child: Text(model.eventDescription, maxLines: 3),
+              child: Text(model.eventDescription, maxLines: descriptionLines),
             ),
           ),
           Padding(

@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:event_challenge/features/events/model/events_model.dart';
 import 'package:event_challenge/features/service/events_service.dart';
 import 'package:event_challenge/shared/core/client/cache_client.dart';
@@ -8,13 +10,13 @@ import 'package:flutter/material.dart';
 class EventsController extends ChangeNotifier {
   final LocalStorage localStorageService;
   final GetDataRepoService remoteService;
+  final Connectivity connectivity;
+  EventsController(
+      {required this.localStorageService,
+      required this.remoteService,
+      required this.connectivity});
 
-  EventsController({
-    required this.localStorageService,
-    required this.remoteService,
-  });
-
-  final String keyLocalStorage = 'events';
+  final String keyLocalStorage = 'favoriteEvents';
 
   bool hasError = false;
 
@@ -22,15 +24,19 @@ class EventsController extends ChangeNotifier {
 
   List<EventModel> storageFavoriteList = [];
 
-  savePersonInFavorite(EventModel person) {
-    if (!storageFavoriteList.contains(person)) {
-      storageFavoriteList.add(person);
+  savePersonInFavorite(EventModel event) {
+    if (!storageFavoriteList.contains(event)) {
+      storageFavoriteList.add(event);
     }
+    saveDataInCache();
     notifyListeners();
   }
 
-  removePersonInFavorite(EventModel person) {
-    storageFavoriteList.remove(person);
+  removePersonInFavorite(EventModel event) {
+    if (storageFavoriteList.any((element) => element == event)) {
+      storageFavoriteList.remove(event);
+    }
+    saveDataInCache();
     notifyListeners();
   }
 
@@ -53,10 +59,9 @@ class EventsController extends ChangeNotifier {
   }
 
   Future<void> saveDataInCache() async {
-    final cacheList = eventList.map((e) => jsonEncode(e.toJson())).toList();
     await localStorageService.writeData(
       key: keyLocalStorage,
-      list: cacheList,
+      data: storageFavoriteList.map((e) => jsonEncode(e.toJson())).toList(),
     );
   }
 
