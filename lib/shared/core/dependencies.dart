@@ -19,17 +19,18 @@ class ServiceLocator {
     //firebase / login
     getIt.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
 
+    getIt.registerFactory<UserLoginClient>(
+      () => AuthFirebaseServiceImpl(
+        auth: getIt<FirebaseAuth>(),
+      ),
+    );
+
     getIt.registerSingleton<LoginController>(
       LoginController(
         authService: getIt<UserLoginClient>(),
       ),
     );
 
-    getIt.registerFactory<UserLoginClient>(
-      () => AuthFirebaseServiceImpl(
-        auth: getIt<FirebaseAuth>(),
-      ),
-    );
 
     //remote data
     getIt.registerFactory<Dio>(
