@@ -12,7 +12,7 @@ class EventDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    EventModel model = ModalRoute.of(context)!.settings.arguments as EventModel;
+    EventModel model = ModalRoute.of(context)?.settings.arguments as EventModel;
     return Scaffold(
       appBar: AppBar(
         title: Text(model.eventName),
