@@ -45,11 +45,6 @@ class FavoriteEventsListPage extends StatelessWidget {
             } else {
               return _iconEmptylist();
             }
-            //  else {
-            //   return const Center(
-            //     child: CircularProgressIndicator(),
-            //   );
-            // }
           },
         ),
       ),
