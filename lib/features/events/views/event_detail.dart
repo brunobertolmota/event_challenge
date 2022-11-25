@@ -25,10 +25,9 @@ class EventDetail extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Text(loginController.user.email),
-          EventCard(
+          EventCardWidget(
             model: model,
-            descriptionLines: 10,
+            textLines: 10,
           ),
           const SizedBox(height: 50),
         ],

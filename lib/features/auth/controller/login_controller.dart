@@ -1,6 +1,5 @@
 import 'package:event_challenge/features/auth/client/user_client.dart';
 import 'package:event_challenge/features/auth/errors/auth_firebase_exceptions.dart';
-import 'package:event_challenge/features/auth/model/user_model.dart';
 import 'package:flutter/cupertino.dart';
 
 
@@ -13,7 +12,6 @@ class LoginController extends ChangeNotifier {
 
   bool hidePassword = true;
 
-  UserModel user = UserModel(email: '', password: '');
   String email = '';
   String password = '';
 

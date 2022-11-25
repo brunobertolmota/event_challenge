@@ -51,7 +51,8 @@ class EventModel {
   bool operator ==(covariant EventModel other) {
     if (identical(this, other)) return true;
 
-    return other.eventName == eventName &&
+    return other.id == id &&
+        other.eventName == eventName &&
         other.eventDescription == eventDescription &&
         other.startTime == startTime &&
         other.endTime == endTime &&
@@ -61,7 +62,8 @@ class EventModel {
 
   @override
   int get hashCode {
-    return eventName.hashCode ^
+    return id.hashCode ^
+        eventName.hashCode ^
         eventDescription.hashCode ^
         startTime.hashCode ^
         endTime.hashCode ^

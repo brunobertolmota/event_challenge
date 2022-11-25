@@ -1,8 +1,8 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:event_challenge/features/auth/client/user_client.dart';
 import 'package:event_challenge/features/auth/controller/login_controller.dart';
 import 'package:event_challenge/features/auth/service/auth_firebase_service.dart';
+import 'package:event_challenge/features/connectivity/controller/connectivity_controller.dart';
 import 'package:event_challenge/features/events/controller/events_controller.dart';
 import 'package:event_challenge/features/service/events_service.dart';
 import 'package:event_challenge/features/service/shared_preference.dart';
@@ -20,7 +20,6 @@ class ServiceLocator {
     getIt.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
 
     getIt.registerFactory<Dio>(
-      //pode ser adicionado varias opcoes ao dio
       () => Dio(),
     );
     getIt.registerFactory<ApiClient>(
@@ -55,13 +54,15 @@ class ServiceLocator {
       ),
     );
 
-    getIt.registerFactory<Connectivity>(() => Connectivity());
+    getIt.registerSingleton<ConnectivityController>(
+      ConnectivityController(),
+    );
+
     //pode ser feito um singleton
     getIt.registerSingleton<EventsController>(
       EventsController(
         remoteService: getIt<GetDataRepoService>(),
         localStorageService: getIt<LocalStorage>(),
-        connectivity: getIt<Connectivity>(),
       ),
     );
   }

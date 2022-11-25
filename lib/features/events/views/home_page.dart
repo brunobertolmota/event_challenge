@@ -1,15 +1,11 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:event_challenge/features/auth/controller/login_controller.dart';
 import 'package:event_challenge/features/connectivity/controller/connectivity_controller.dart';
-import 'package:event_challenge/features/events/controller/events_controller.dart';
 import 'package:event_challenge/features/events/views/events_list.dart';
 import 'package:event_challenge/features/events/views/favorites_event_list.dart';
 import 'package:event_challenge/shared/core/dependencies.dart';
 import 'package:event_challenge/shared/utils/app_colors.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,10 +16,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final EventsController eventController = getIt<EventsController>();
   final LoginController loginController = getIt<LoginController>();
-  final auth = getIt<FirebaseAuth>();
-  final ConnectivityController con = ConnectivityController();
+
+  final ConnectivityController connectivityController =
+      getIt<ConnectivityController>();
 
   @override
   Widget build(BuildContext context) {
@@ -46,10 +42,8 @@ class _HomePageState extends State<HomePage> {
                 PopupMenuItem(
                   child: TextButton(
                     onPressed: () {
-                      inspect(eventController.storageFavoriteList);
-
-                      // auth.signOut().then((value) =>
-                      //     Navigator.pushReplacementNamed(context, '/login'));
+                      loginController.logOut().then((value) =>
+                          Navigator.pushReplacementNamed(context, '/login'));
                     },
                     child: const Text('Sair'),
                   ),
@@ -80,7 +74,7 @@ class _HomePageState extends State<HomePage> {
               child: TabBarView(
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  EventListPage(),
+                  const EventListPage(),
                   FavoriteEventsListPage(),
                 ],
               ),
@@ -94,29 +88,32 @@ class _HomePageState extends State<HomePage> {
 
   Widget _appBardConnectionStatus() {
     return FutureBuilder<void>(
-        future: con.initConnectivity(),
+        future: connectivityController.initConnectivity(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return StreamBuilder<StreamSubscription>(
-                initialData: con.connectivitySubscription,
+                initialData: connectivityController.connectivitySubscription,
                 builder: (context, _) {
                   return AnimatedBuilder(
-                      animation: con,
-                      builder: (context, _) => con.connectionStatus ==
-                              ConnectivityResult.wifi
-                          ? const Icon(
-                              Icons.wifi,
-                              color: Colors.green,
-                            )
-                          : con.connectionStatus == ConnectivityResult.mobile
-                              ? const Icon(
-                                  Icons.signal_cellular_alt,
-                                  color: Colors.yellow,
-                                )
-                              : const Icon(
-                                  Icons.close,
-                                  color: Colors.red,
-                                ));
+                    animation: connectivityController,
+                    builder: (context, _) =>
+                        connectivityController.connectionStatus ==
+                                ConnectivityResult.wifi
+                            ? const Icon(
+                                Icons.wifi,
+                                color: Colors.green,
+                              )
+                            : connectivityController.connectionStatus ==
+                                    ConnectivityResult.mobile
+                                ? const Icon(
+                                    Icons.signal_cellular_alt,
+                                    color: Colors.yellow,
+                                  )
+                                : const Icon(
+                                    Icons.close,
+                                    color: Colors.red,
+                                  ),
+                  );
                 });
           }
           return const Center(

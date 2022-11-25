@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:event_challenge/features/events/model/events_model.dart';
 import 'package:event_challenge/features/service/events_service.dart';
 import 'package:event_challenge/shared/core/client/cache_client.dart';
@@ -10,11 +9,10 @@ import 'package:flutter/material.dart';
 class EventsController extends ChangeNotifier {
   final LocalStorage localStorageService;
   final GetDataRepoService remoteService;
-  final Connectivity connectivity;
-  EventsController(
-      {required this.localStorageService,
-      required this.remoteService,
-      required this.connectivity});
+  EventsController({
+    required this.localStorageService,
+    required this.remoteService,
+  });
 
   final String keyLocalStorage = 'favoriteEvents';
 

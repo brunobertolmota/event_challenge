@@ -36,7 +36,7 @@ class _EventListPageState extends State<EventListPage> {
     return Scaffold(
         body: SafeArea(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(10.0),
         child: FutureBuilder<List<EventModel>>(
           future: controller.getDataController(),
           builder: (context, snapshot) {
@@ -51,38 +51,11 @@ class _EventListPageState extends State<EventListPage> {
                       elevation: 10,
                       child: Column(
                         children: [
-                          EventCard(
+                          EventCardWidget(
                             model: controller.eventList[index],
-                            descriptionLines: 3,
+                            textLines: 3,
                           ),
-                          AnimatedBuilder(
-                            animation: controller,
-                            builder: (context, child) =>
-                                !controller.storageFavoriteList.any((model) =>
-                                        model.id ==
-                                        controller.eventList[index].id)
-                                    ? TextButton(
-                                        onPressed: () {
-                                          controller.savePersonInFavorite(
-                                            controller.eventList[index],
-                                          );
-                                        },
-                                        child: purpleText(
-                                            text: 'Adicionar aos Meus Eventos',
-                                            fontSize: 18))
-                                    : TextButton(
-                                        onPressed: () {
-                                          inspect(controller.eventList[index]);
-                                          controller.removePersonInFavorite(
-                                            controller.eventList[index],
-                                          );
-                                        },
-                                        child: purpleText(
-                                          text: 'Remover dos Meus Eventos',
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                          ),
+                          _saveAndRemoveTextButton(index),
                         ],
                       ),
                     ),
@@ -104,7 +77,34 @@ class _EventListPageState extends State<EventListPage> {
     ));
   }
 
-  // _iconHasError
+  Widget _saveAndRemoveTextButton(index) {
+    return AnimatedBuilder(
+      animation: controller,
+      builder: (context, child) => !controller.storageFavoriteList
+              .any((model) => model == controller.eventList[index])
+          ? TextButton(
+              onPressed: () {
+                controller.savePersonInFavorite(
+                  controller.eventList[index],
+                );
+              },
+              child:
+                  purpleText(text: 'Adicionar aos Meus Eventos', fontSize: 18))
+          : TextButton(
+              onPressed: () {
+                inspect(controller.eventList[index]);
+                controller.removePersonInFavorite(
+                  controller.eventList[index],
+                );
+              },
+              child: purpleText(
+                text: 'Remover dos Meus Eventos',
+                fontSize: 18,
+              ),
+            ),
+    );
+  }
+
   Widget _iconEmptylist() {
     return Center(
       child: Column(

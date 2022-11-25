@@ -12,7 +12,7 @@ class Routes {
       '/splash': (context) => const SplashScreen(),
       '/login': (context) => const LoginPage(),
       '/homePage': (context) => const HomePage(),
-      '/eventsList': (context) => EventListPage(),
+      '/eventsList': (context) => const EventListPage(),
       '/favoriteEvents': (context) => FavoriteEventsListPage(),
       '/eventDetail': (context) => EventDetail(),
     };

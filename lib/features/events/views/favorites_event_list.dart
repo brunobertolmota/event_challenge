@@ -36,9 +36,9 @@ class FavoriteEventsListPage extends StatelessWidget {
                     onTap: () => handleTap(controller.eventList[index]),
                     child: Card(
                       elevation: 10,
-                      child: EventCard(
+                      child: EventCardWidget(
                         model: controller.storageFavoriteList[index],
-                        descriptionLines: 3,
+                        textLines: 3,
                       ),
                     ),
                   ),
