@@ -26,31 +26,30 @@ class FavoriteEventsListPage extends StatelessWidget {
         padding: const EdgeInsets.all(8.0),
         child: FutureBuilder<List<EventModel>>(
           future: controller.loadDataFromCache(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if (controller.storageFavoriteList.isNotEmpty) {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: controller.storageFavoriteList.length,
-                  itemBuilder: (_, index) => GestureDetector(
-                    onTap: () => handleTap(controller.eventList[index]),
-                    child: Card(
-                      elevation: 10,
-                      child: EventCardWidget(
-                        model: controller.storageFavoriteList[index],
-                        textLines: 3,
-                      ),
+          builder: (context, _) {
+            if (controller.storageFavoriteList.isNotEmpty) {
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: controller.storageFavoriteList.length,
+                itemBuilder: (_, index) => GestureDetector(
+                  onTap: () => handleTap(controller.eventList[index]),
+                  child: Card(
+                    elevation: 10,
+                    child: EventCardWidget(
+                      model: controller.storageFavoriteList[index],
+                      textLines: 3,
                     ),
                   ),
-                );
-              } else {
-                return _iconEmptylist();
-              }
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
+                ),
               );
+            } else {
+              return _iconEmptylist();
             }
+            //  else {
+            //   return const Center(
+            //     child: CircularProgressIndicator(),
+            //   );
+            // }
           },
         ),
       ),

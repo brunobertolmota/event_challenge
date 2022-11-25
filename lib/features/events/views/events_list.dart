@@ -5,6 +5,7 @@ import 'package:event_challenge/features/events/model/events_model.dart';
 import 'package:event_challenge/features/events/widgets/event_card.dart';
 import 'package:event_challenge/shared/core/dependencies.dart';
 import 'package:event_challenge/shared/utils/app_assets.dart';
+import 'package:event_challenge/shared/utils/widgets/buttons_components.dart';
 import 'package:event_challenge/shared/utils/widgets/text_components.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -31,6 +32,10 @@ class _EventListPageState extends State<EventListPage> {
         '/eventDetail',
         arguments: model,
       );
+    }
+
+    void refresh() {
+      setState(() {});
     }
 
     return Scaffold(
@@ -62,7 +67,19 @@ class _EventListPageState extends State<EventListPage> {
                   ),
                 );
               } else if (controller.hasError) {
-                return _iconHasError();
+                return Center(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 50),
+                      _iconHasError(),
+                      const SizedBox(height: 50),
+                      ElevatedButton(
+                        onPressed: refresh,
+                        child: const Text('Recarregar página'),
+                      ),
+                    ],
+                  ),
+                );
               } else {
                 return _iconEmptylist();
               }

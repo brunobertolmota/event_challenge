@@ -38,6 +38,8 @@ class EventsController extends ChangeNotifier {
     notifyListeners();
   }
 
+  
+
   Future<List<EventModel>> getDataController() async {
     try {
       eventList = await remoteService.getData();
