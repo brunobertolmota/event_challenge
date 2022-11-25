@@ -16,9 +16,22 @@ final getIt = GetIt.instance;
 
 class ServiceLocator {
   static void initializeDependencies() {
-    //firebase
+    //firebase / login
     getIt.registerSingleton<FirebaseAuth>(FirebaseAuth.instance);
 
+    getIt.registerSingleton<LoginController>(
+      LoginController(
+        authService: getIt<UserLoginClient>(),
+      ),
+    );
+
+    getIt.registerFactory<UserLoginClient>(
+      () => AuthFirebaseServiceImpl(
+        auth: getIt<FirebaseAuth>(),
+      ),
+    );
+
+    //remote data
     getIt.registerFactory<Dio>(
       () => Dio(),
     );
@@ -27,38 +40,21 @@ class ServiceLocator {
         client: getIt<Dio>(),
       ),
     );
-
-    getIt.registerFactory<LocalStorage>(
-      () => SharedPreferenceImpl(),
-    );
-    // getIt.registerFactory<CacheStore>(
-    //   () => SharedPreferenceTestImpl(prefs: getIt<SharedPreferences>()),
-    // );
-
     getIt.registerFactory<GetDataRepoService>(
       () => GetDataRepoService(
         client: getIt<ApiClient>(),
       ),
     );
 
-    //user
-    getIt.registerFactory<UserLoginClient>(
-      () => AuthFirebaseServiceImpl(
-        auth: getIt<FirebaseAuth>(),
-      ),
+    //local data
+    getIt.registerFactory<LocalStorage>(
+      () => SharedPreferenceImpl(),
     );
 
-    getIt.registerSingleton<LoginController>(
-      LoginController(
-        authService: getIt<UserLoginClient>(),
-      ),
-    );
-
+    // controllers
     getIt.registerSingleton<ConnectivityController>(
       ConnectivityController(),
     );
-
-    //pode ser feito um singleton
     getIt.registerSingleton<EventsController>(
       EventsController(
         remoteService: getIt<GetDataRepoService>(),
