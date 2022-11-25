@@ -8,14 +8,9 @@ import 'package:event_challenge/shared/core/dependencies.dart';
 import 'package:event_challenge/shared/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePage extends StatelessWidget {
+   HomePage({Key? key}) : super(key: key);
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   final LoginController loginController = getIt<LoginController>();
 
   final ConnectivityController connectivityController =

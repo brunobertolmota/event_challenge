@@ -11,7 +11,7 @@ class Routes {
     return {
       '/splash': (context) => const SplashScreen(),
       '/login': (context) => const LoginPage(),
-      '/homePage': (context) => const HomePage(),
+      '/homePage': (context) => HomePage(),
       '/eventsList': (context) => const EventListPage(),
       '/favoriteEvents': (context) => FavoriteEventsListPage(),
       '/eventDetail': (context) => EventDetail(),
