@@ -1,4 +1,3 @@
-
 import 'package:event_challenge/features/events/model/events_model.dart';
 import 'package:event_challenge/shared/config/app_configs.dart';
 import 'package:event_challenge/shared/core/client/client.dart';
@@ -26,5 +25,4 @@ class GetDataRepoService {
         throw UnknownEception();
     }
   }
-
 }

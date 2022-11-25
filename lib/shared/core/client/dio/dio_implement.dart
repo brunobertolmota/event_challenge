@@ -3,7 +3,7 @@ import 'package:event_challenge/shared/core/client/client.dart';
 import 'package:event_challenge/shared/core/client/dio/response.dart';
 import 'package:event_challenge/shared/error/errors.dart';
 
-class DioClientImpl extends ApiClient {
+class DioClientImpl implements ApiClient {
   final dio.Dio client;
 
   DioClientImpl({
