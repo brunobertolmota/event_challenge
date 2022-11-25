@@ -4,7 +4,6 @@ enum AuthStatus {
   successful,
   invalidEmail,
   wrongPassword,
-  error,
   unknown,
 }
 
